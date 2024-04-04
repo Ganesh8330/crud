@@ -1,16 +1,23 @@
 import React, { useState } from 'react'
 
 const AddStudent = ({students,setStudents}) => {
-    const[id,setId] = useState('');
-    const[name,setName] = useState('');
-    const[batch,setBatch] = useState('');
-    const[gender,setGender] = useState('');
-    const[education,setEducation] = useState('');
+  const[id,setId] = useState('');
+  const[name,setName] = useState('');
+  const[batch,setBatch] = useState('');
+  const[gender,setGender] = useState('');
+  const[education,setEducation] = useState('');
+  
+  const a = 7;
 
+const b =  "hello ababy"
+  
     const handleAddStudent = ()=>{
+
+
+
         const newStudent = {
             id:id,
-            name:name,
+          name:name,
             batch:batch,
             gender:gender,
             education:education,
