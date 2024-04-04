@@ -1,0 +1,31 @@
+export const data = [
+  {
+    id: '1',
+    name: "Ganesh",
+    batch: "B43HU",
+    gender: "Male",
+    education: "B.Sc",
+  },
+  {
+    id: '2',
+    name: "Vishwa",
+    batch: "B43HU",
+    gender: "Male",
+    education: "B.tech",
+  },
+  {
+    id: '3',
+    name: "Rohit",
+    batch: "B43HU",
+    gender: "Male",
+    education: "B.Sc",
+  },
+  {
+    id: '4',
+    name: "Hardik",
+    batch: "B43HU",
+    gender: "Male",
+    education: "BE",
+  },
+];
+ 
