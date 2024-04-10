@@ -1,29 +1,50 @@
-import React from 'react'
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useNavigate } from "react-router-dom";
 
-const Base = ({title,description,children}) => {
+const Base = ({ title, description, children }) => {
+  const navigate = useNavigate();
   return (
-    <div className='main-container'>
-      <header>
-        <nav>
-            <div>
-                <h1>Application</h1>
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <div className="main-container">
+              <header>
+                <nav>
+                  <div>
+                    <h1 style={{marginRight:'80px'}}>Application</h1>
+                  </div>
+                  <div className="nav-btn-group">
+                    <button onClick={() => navigate("/")}>DashBoard</button>
+                    <button onClick={() => navigate("/students")}>
+                      Students
+                    </button>
+                    <button onClick={() => navigate("/add-students")}>
+                      Add Student
+                    </button>
+                    <button>Teachers</button>
+                    <button>Add Teachers</button>
+                  </div>
+                </nav>
+              </header>
             </div>
-            <div className='nav-btn-group'>
-                <button>button1</button>
-                <button>button2</button>
-                <button>button3</button>
-            </div>
-        </nav>
-      </header>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <main>
         <h1>{title}</h1>
         <h4>{description}</h4>
-        <div className="contents">
-        {children}
-        </div>
+        <div className="contents">{children}</div>
       </main>
-    </div>
-  )
-}
+    </>
+  );
+};
 
-export default Base
+export default Base;

@@ -1,53 +1,143 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import Base from "../Base/Base";
+import { useNavigate, useParams } from "react-router-dom";
+import { studentValidationSchema } from "./AddStudent";
+import { useFormik } from "formik";
+import TextField from "@mui/material/TextField";
 
-const EditStudent = ({studId ,students,setStudents}) => {
-    const[id,setId] = useState('');
-    const[name,setName] = useState('');
-    const[batch,setBatch] = useState('');
-    const[gender,setGender] = useState('');
-    const[education,setEducation] = useState('');
+const EditStudent = ({ students, setStudents }) => {
+  const { id } = useParams();
+  const studentData = students.find((stud) => stud.id === id);
 
-    useEffect(()=>{
-        const studentData = students.find((stud)=>(stud.id===studId))
-        if(studentData){
-        setId(studentData.id)
-        setName(studentData.name)
-        setBatch(studentData.batch)
-        setGender(studentData.gender)
-        setEducation(studentData.education)
-    }
-    },[studId,students])
+  const { values, handleChange, handleSubmit, handleBlur, errors,touched } = useFormik({
+    initialValues: {
+      name: studentData.name,
+      batch: studentData.batch,
+      gender: studentData.gender,
+      education: studentData.education,
+    },
+    validationSchema: studentValidationSchema,
+    onSubmit: (updatedStudent) => {
+      console.log(updatedStudent);
+      handleUpdate(updatedStudent)
+    },
+  });
 
-    const handleUpdate = ()=>{
 
-        const studIndex = students.findIndex((stud)=>stud.id===studId)
-        console.log(studIndex);
+  
 
-        const updatedStudent = {
-            id:id,
-            name:name,
-            batch:batch,
-            gender:gender,
-            education:education,
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+    
+  //   if (studentData) {
+  //     values.name=studentData.name,
+  //     values.batch =studentData.batch,
+  //     values.gender=studentData.gender,
+  //     values.education=studentData.education,
+  //   }
+  // }, [id, students]);
+
+  const handleUpdate = async(updatedStudent) => {
+    try{
+      // const updatedStudent = {
+      //   id: id,
+      //   name: name,
+      //   batch: batch,
+      //   gender: gender,
+      //   education: education,
+      // };
+
+      const response = await fetch(`https://6616421ab8b8e32ffc7cdb80.mockapi.io/students/${id}`,{
+        method:'PUT',
+        body:JSON.stringify(updatedStudent),
+        headers:{
+          "Content-type":"application/json"
         }
-        console.log(updatedStudent);
-        students[studIndex]= updatedStudent
-        setStudents([...students])
+      });
+      const data = await response.json()
+      console.log(data);
+
+      const studIndex = students.findIndex((stud) => stud.id === id);
+      console.log(studIndex);
+
+      students[studIndex] = data;
+      setStudents([...students]);
+      navigate("/students");
 
     }
+    catch(error)
+    {
+      console.log(error)
+    }
+    
+  };
 
   return (
-    <div className='form-group'>
-        <h4>Update Student</h4>
-      <input type="number" placeholder='Enter student ID' value={id} onChange={(e)=>setId(e.target.value)} required/>
-      <input type="text" placeholder='Enter your Student Name' value={name} onChange={(e)=>setName(e.target.value)}required/>
-      <input type="text" placeholder='Enter your Student Batch' value={batch} onChange={(e)=>setBatch(e.target.value)} required/>
-      <input type="text" placeholder='Enter your Student Gender' value={gender} onChange={(e)=>setGender(e.target.value)} required/>
-      <input type="text" placeholder='Enter your Student Education' value={education} onChange={(e)=>setEducation(e.target.value)} required/>
-      <button onClick={handleUpdate}>Update student</button>
-    </div>
-  )
-}
+    <Base title={"Edit Student"} description={"Fill the form to Edit student"}>
+       <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <h4>Add Student</h4>
+          <TextField
+            id="outlined-basic"
+            label="Name"
+            variant="outlined"
+            placeholder="Enter your Student Name"
+            name="name"
+            value={values.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            style={{ width: "50%" }}
+          />
+          {touched.name && errors.name ? <div style={{color:'red'}}>
+           { errors.name}
+          </div>:''}
+          <TextField
+            style={{ width: "50%" }}
+            id="outlined-basic"
+            label="Batch"
+            variant="outlined"
+            placeholder="Enter your Student Batch"
+            name="batch"
+            value={values.batch}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          {touched.batch && errors.batch ? <div style={{color:'red'}}>
+           { errors.batch}
+          </div>:''}
+          <TextField
+            id="outlined-basic"
+            label="Gender"
+            variant="outlined"
+            placeholder="Enter your Student Gender"
+            name="gender"
+            value={values.gender}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            style={{ width: "50%" }}
+          />
+          {touched.gender && errors.gender ? <div style={{color:'red'}}>
+           { errors.gender}
+          </div>:''}
+          <TextField
+            id="outlined-basic"
+            label="Education"
+            variant="outlined"
+            placeholder="Enter your Student Education"
+            name="education"
+            value={values.education}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            style={{ width: "50%" }}
+          />
+          {touched.education && errors.education ? <div style={{color:'red'}}>
+           { errors.education}
+          </div>:''}
+          <button type="submit">Update student</button>
+        </div>
+      </form>
+    </Base>
+  );
+};
 
-export default EditStudent
+export default EditStudent;

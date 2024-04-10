@@ -20,6 +20,18 @@ nav{
   gap: 2rem;
 }
 
+.nav-btn-group button{
+  width: 100%;
+  padding: 8px;
+  border-radius: 3px;
+  transition: background-color .6s ease;
+}
+
+.nav-btn-group button:hover{
+  background-color: black;
+  color: #ccc;
+}
+
 main{
   /* border: 1px solid salmon; */
   text-align: center;
@@ -37,8 +49,7 @@ main{
 .student-card{
   background-color: #ccc;
   border-radius: 9px;
-  width: 300px;
-  height: 350px;
+  width: 235px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -87,7 +98,7 @@ main{
 }
 .form-group input,button{
   padding: 7px;
-  width: 25%;
+  /* width: 25%; */
   transition: background-color .5s ease;
 }
 .form-group button:hover{
